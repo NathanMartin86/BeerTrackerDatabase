@@ -23,10 +23,10 @@ public class Main {
     }
 
     static void editBeer(Connection conn, String name, int idNum, String type) throws SQLException {
-        PreparedStatement stmt3 = conn.prepareStatement("UPDATE beers SET name = ? AND type = ? WHERE ROWNUM = ?");
+        PreparedStatement stmt3 = conn.prepareStatement("UPDATE beers SET name =?, type = ? WHERE ROWNUM = ?");
         stmt3.setString(1, name);
         stmt3.setString(2, type);
-        stmt3.setInt(3, idNum);
+        stmt3.setInt(3,idNum);
         stmt3.execute();
     }
     static ArrayList<Beer> selectBeer (Connection conn) throws SQLException {
@@ -49,7 +49,7 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
         Statement stmt = conn.createStatement();
-        stmt.execute("CREATE TABLE IF NOT EXISTS beers (name VARCHAR, type VARCHAR)");
+        stmt.execute("CREATE TABLE IF NOT EXISTS beers (name VARCHAR, type VARCHAR, id IDENTITY PRIMARY KEY)");
 
 
         Spark.get(
