@@ -8,6 +8,8 @@ public class Beer {
     String name;
     String type;
 
+    public Beer(){}
+
     public Beer(String name, String type) {
         this.name = name;
         this.type = type;
