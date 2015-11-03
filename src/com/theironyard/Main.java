@@ -17,13 +17,13 @@ public class Main {
     }
 
     static void deleteBeer(Connection conn, int idNum) throws SQLException {
-        PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM beers WHERE ROWNUM = ?");
+        PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM beers WHERE ROWNUM = ? ");
         stmt2.setInt(1, idNum);
         stmt2.execute();
     }
 
     static void editBeer(Connection conn, String name, int idNum, String type) throws SQLException {
-        PreparedStatement stmt3 = conn.prepareStatement("UPDATE beers SET name = ?, SET type = ? WHERE ROWNUM = ?");
+        PreparedStatement stmt3 = conn.prepareStatement("UPDATE beers SET name = ? AND type = ? WHERE ROWNUM = ?");
         stmt3.setString(1, name);
         stmt3.setString(2, type);
         stmt3.setInt(3, idNum);
@@ -99,15 +99,18 @@ public class Main {
                 (request, response) -> {
                     String id = request.queryParams("newBeerId");
                     int idNum = Integer.valueOf(id);
-                    String name = request.queryParams("newBeerName");
-                    String type = request.queryParams("newBeerType");
 
-                    editBeer(conn, name, idNum, type);
+  //                  try {
+                        String name = request.queryParams("newBeerName");
+                        String type = request.queryParams("newBeerType");
 
-                    response.redirect("/");
+                        editBeer(conn, name, idNum, type);
 
+ //                   } catch (Exception e) {
+                        response.redirect("/");
+
+  //                  }
                     return "";
-
                 }
         );
 
@@ -118,21 +121,18 @@ public class Main {
                     try {
                         int idNum = Integer.valueOf(id);
                         deleteBeer(conn, idNum);
-
-
 //                       beers.remove(idNum - 1);
 //                       for (int i = 0; i < beers.size(); i++) {
 //                            beers.get(i).id = i + 1;
 //                        }
-                         } catch (Exception e) {
+                    } catch (Exception e) {
                     }
 
-                        response.redirect("/");
-                        return "";
-                    })
-                    );
+                    response.redirect("/");
+                    return "";
+                })
+        );
 
     }
-
 }
 
